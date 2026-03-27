@@ -1,0 +1,18 @@
+
+text = "  hello python world  "
+
+print("Original String:", text)
+
+print("Uppercase:", text.upper())
+print("Lowercase:", text.lower())
+print("Title Case:", text.title())
+print("Capitalize:", text.capitalize())
+
+print("Strip spaces:", text.strip())
+print("Replace 'python' with 'Java':", text.replace("python", "Java"))
+
+print("Split into words:", text.split())
+print("Starts with 'hello':", text.strip().startswith("hello"))
+print("Ends with 'world':", text.strip().endswith("world"))
+
+print("Length of string:", len(text))
