@@ -1,0 +1,14 @@
+date&time=2026-04-10 14:44:43.907388
+id = 45/nname=yash
+city=rajkotdate&time=2026-04-10 14:44:47.300043
+id = 44/nname=mohit
+city=rajkotdate&time=2026-04-10 14:45:44.395667
+id = 54
+name=yash
+city=rajkot
+--------------
+date&time=2026-04-10 14:45:47.893660
+id = 58
+name=mohit
+city=rajkot
+--------------
