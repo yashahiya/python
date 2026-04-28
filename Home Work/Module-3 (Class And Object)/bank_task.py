@@ -29,7 +29,7 @@ class Withdrawal(Deposit):
             print("Withdrawal Successfull..")
             self.ac_balance-=self.withdrawdata
 """
-class Statement(Withdrawal):
+class statement(Withdrawal):
 
     def statementdata(self):
         print("Your acc Number Is : ",self.ac_num)
@@ -38,7 +38,7 @@ class Statement(Withdrawal):
         print("Your Balance Is : ",self.ac_balance)
 
 
-bnk=Statement()
+bnk=statement()
 bnk.getdata()
 bnk.depositdata()
 bnk.withdrawdata()
