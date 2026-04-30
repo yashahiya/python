@@ -1,0 +1,25 @@
+install -> pip install django
+chek -> django-admin --version
+instll version -> pip install django==5.1
+virtualenv install -> pip install virtualenv
+virtul env ->virtualenv env nu name
+env active ->
+
+new project -> django-admin startproject projectname
+                                                                                                      
+
+python manage.py badha command ma aavse j
+
+server start  -> python manage.py runserver
+server close karva ctrl+c
+admin create -> create superuser
+
+
+
+---------------------------------------------
+new project 
+env active -> myenv\scripts\acivate
+project start or create -> django-admin start project projectname
+project na pathe ma jay ne ->cd\projectname
+                            ->code .
+
