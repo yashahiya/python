@@ -15,7 +15,7 @@ def index(request):
         print(name.fullname)
         if user:
             print("login successfully")
-            return redirect('home')
+            return redirect('login')
         else:
             print("Errors!")
     return render(request,"index.html")
@@ -29,3 +29,5 @@ def signup(request):
         else:
             print(form.errors)
     return render(request,"signup.html")
+def login(request):
+    return render(request,"login.html")
