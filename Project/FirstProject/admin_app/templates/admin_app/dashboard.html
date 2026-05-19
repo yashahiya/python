@@ -1,0 +1,477 @@
+{% extends 'user_app/base.html' %}
+
+{% block title %}Admin Dashboard - FirstPortal{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-6xl mx-auto px-4 sm:px-6 animate-slide-in">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+        <div>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold tracking-wider bg-amber-50 text-amber-850 border border-amber-200 uppercase">
+                Admin Command Center
+            </span>
+            <h1 class="font-outfit font-extrabold text-3xl sm:text-4xl text-slate-900 mt-3 tracking-tight">
+                System Oversight & Moderation
+            </h1>
+            <p class="text-slate-500 text-sm mt-1.5 font-medium">
+                Regulate user registrations, monitor active directory, moderate submitted notes, and read incoming customer feedback.
+            </p>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards Grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <!-- Stat 1: Total Users -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:border-indigo-500/30 transition-all duration-300 shadow-md">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Total Users</span>
+                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-650 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                </div>
+            </div>
+            <span class="font-outfit font-extrabold text-3xl text-slate-800 block">{{ stats.total }}</span>
+        </div>
+
+        <!-- Stat 2: Pending Notes to Review -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:border-amber-500/30 transition-all duration-300 shadow-md">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Pending Notes</span>
+                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-750 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </div>
+            </div>
+            <span class="font-outfit font-extrabold text-3xl text-amber-600 block">{{ note_stats.pending }}</span>
+        </div>
+
+        <!-- Stat 3: Approved Notes -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:border-emerald-500/30 transition-all duration-300 shadow-md">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Approved Notes</span>
+                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-650 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                    </svg>
+                </div>
+            </div>
+            <span class="font-outfit font-extrabold text-3xl text-emerald-600 block">{{ note_stats.approved }}</span>
+        </div>
+
+        <!-- Stat 4: Contact Messages -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:border-violet-500/30 transition-all duration-300 shadow-md">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Inbox Messages</span>
+                <div class="w-8 h-8 rounded-lg bg-violet-50 text-violet-650 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                    </svg>
+                </div>
+            </div>
+            <span class="font-outfit font-extrabold text-3xl text-violet-600 block">{{ contact_messages.count }}</span>
+        </div>
+    </div>
+
+    <!-- Multi Tab Selector -->
+    <div class="flex border-b border-slate-200 mb-6">
+        <button id="tab-users-btn" onclick="switchTab('users')" class="px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-indigo-500 text-indigo-600 focus:outline-none transition-all duration-150">
+            User Directory
+        </button>
+        
+        <button id="tab-notes-btn" onclick="switchTab('notes')" class="px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-transparent text-slate-550 hover:text-indigo-600 focus:outline-none transition-all duration-150 flex items-center space-x-2">
+            <span>Notes Moderation Queue</span>
+            {% if note_stats.pending > 0 %}
+                <span class="px-2 py-0.5 text-[10px] bg-amber-550 text-white rounded-full font-sans font-bold leading-none animate-pulse">{{ note_stats.pending }}</span>
+            {% endif %}
+        </button>
+
+        <button id="tab-messages-btn" onclick="switchTab('messages')" class="px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-transparent text-slate-550 hover:text-indigo-600 focus:outline-none transition-all duration-150 flex items-center space-x-2">
+            <span>Contact Messages</span>
+            <!-- Count unread messages inside template logic -->
+            {% font_bold %}
+            {% assign unread_count = 0 %}
+            {% for m in contact_messages %}
+                {% if not m.is_read %}
+                    <span class="w-2 h-2 bg-indigo-600 rounded-full animate-pulse ml-0.5"></span>
+                {% endif %}
+            {% endfor %}
+        </button>
+    </div>
+
+    <!-- TAB 1: User Directory -->
+    <div id="tab-users-content" class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-lg shadow-slate-200/30">
+        <!-- Controls Bar -->
+        <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <h3 class="font-outfit font-bold text-lg text-slate-900">Registered Users</h3>
+                <p class="text-xs text-slate-400 font-medium">Manage registry database and edit account settings</p>
+            </div>
+            
+            <!-- Search Form -->
+            <form method="GET" action="{% url 'admin_app:dashboard' %}" class="w-full sm:w-auto flex items-center space-x-2">
+                <div class="relative rounded-xl w-full sm:w-64">
+                    <input type="text" name="q" value="{{ search_query }}" placeholder="Search username, email..." 
+                        class="block w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-450 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200">
+                    {% if search_query %}
+                        <a href="{% url 'admin_app:dashboard' %}" class="absolute inset-y-0 right-8 pr-1 flex items-center text-slate-400 hover:text-slate-655">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </a>
+                    {% endif %}
+                    <button type="submit" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21-21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-100">
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 pl-6">ID</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Full Name</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Username</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Email Address</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Mobile Number</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Verification</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Status</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 text-center pr-6">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for u in users %}
+                        <tr class="hover:bg-slate-50/50 transition-colors duration-150">
+                            <!-- ID -->
+                            <td class="p-4 text-xs text-slate-400 pl-6 font-semibold">#{{ u.id }}</td>
+                            <!-- Full Name -->
+                            <td class="p-4 text-sm font-bold text-slate-800">
+                                {% if u.full_name %}{{ u.full_name }}{% else %}<span class="text-slate-400 italic">None</span>{% endif %}
+                            </td>
+                            <!-- Username -->
+                            <td class="p-4 text-sm font-semibold text-slate-700">
+                                <div class="flex items-center space-x-2">
+                                    <span>{{ u.username }}</span>
+                                    {% if u.is_staff or u.is_superuser %}
+                                        <span class="px-1.5 py-0.5 rounded text-[8px] font-extrabold bg-amber-500/10 text-amber-800 border border-amber-500/20 uppercase tracking-widest">Admin</span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <!-- Email -->
+                            <td class="p-4 text-xs font-semibold text-slate-500 font-mono select-all">{{ u.email }}</td>
+                            <!-- Mobile -->
+                            <td class="p-4 text-xs font-semibold text-slate-500 font-mono">
+                                {% if u.mobile %}{{ u.mobile }}{% else %}<span class="text-slate-400 italic">None</span>{% endif %}
+                            </td>
+                            <!-- Verification -->
+                            <td class="p-4 text-xs">
+                                {% if u.is_verified %}
+                                    <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <span class="w-1 h-1 rounded-full bg-emerald-500"></span>
+                                        <span>Verified</span>
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-850 border border-amber-200">
+                                        <span class="w-1 h-1 rounded-full bg-amber-400 animate-pulse"></span>
+                                        <span>Pending OTP</span>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <!-- Status -->
+                            <td class="p-4 text-xs">
+                                {% if u.is_blocked %}
+                                    <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                        <span>Blocked</span>
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <span>Active</span>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <!-- Actions -->
+                            <td class="p-4 text-xs font-semibold text-center pr-6">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <!-- Edit -->
+                                    <a href="{% url 'admin_app:edit' u.id %}" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg text-slate-700 transition-colors duration-150">
+                                        Edit
+                                    </a>
+                                    
+                                    <!-- Block / Unblock -->
+                                    {% if u.id != user.id %}
+                                        {% if u.is_blocked %}
+                                            <a href="{% url 'admin_app:unblock' u.id %}" class="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 rounded-lg transition-colors duration-150">
+                                                Unblock
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'admin_app:block' u.id %}" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-800 rounded-lg transition-colors duration-150">
+                                                Block
+                                            </a>
+                                        {% endif %}
+                                    {% else %}
+                                        <button disabled class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-400 cursor-not-allowed" title="Self block safety protection active">
+                                            Block
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="8" class="p-8 text-center text-sm text-slate-500 font-medium">
+                                No users matched your search criteria.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB 2: Notes Moderation Queue -->
+    <div id="tab-notes-content" class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-lg shadow-slate-200/30 hidden">
+        <div class="p-6 border-b border-slate-100">
+            <h3 class="font-outfit font-bold text-lg text-slate-900">Notes Moderation</h3>
+            <p class="text-xs text-slate-400 font-medium">Review notes submissions, download files, approve or reject notes with automatic confirmation email dispatch.</p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-100">
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 pl-6">User</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Title & Content</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Category</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Attachment File</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Status</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 text-center pr-6">Moderation Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for note in notes %}
+                        <tr class="hover:bg-slate-50/50 transition-colors duration-150">
+                            <!-- User Info -->
+                            <td class="p-4 pl-6">
+                                <div class="font-semibold text-slate-800 text-sm">{{ note.user.username }}</div>
+                                <div class="text-[11px] text-slate-450 font-mono select-all">{{ note.user.email }}</div>
+                            </td>
+                            <!-- Title & Content -->
+                            <td class="p-4">
+                                <div class="font-semibold text-slate-800 text-sm">{{ note.title }}</div>
+                                <div class="text-xs text-slate-500 mt-1 max-w-xs leading-relaxed">{{ note.description }}</div>
+                            </td>
+                            <!-- Category -->
+                            <td class="p-4 text-xs font-semibold text-slate-600">
+                                <span class="px-2.5 py-1 bg-slate-100 rounded-lg text-slate-700">
+                                    {{ note.category }}
+                                </span>
+                            </td>
+                            <!-- File -->
+                            <td class="p-4 text-xs">
+                                {% if note.file %}
+                                    <a href="{{ note.file.url }}" download class="inline-flex items-center space-x-1.5 text-indigo-650 hover:text-indigo-800 font-bold">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                        </svg>
+                                        <span>Download File</span>
+                                    </a>
+                                {% else %}
+                                    <span class="text-slate-400 italic">No attachment</span>
+                                {% endif %}
+                            </td>
+                            <!-- Status badge -->
+                            <td class="p-4 text-xs">
+                                {% if note.status == 'approved' %}
+                                    <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        <span>Approved</span>
+                                    </span>
+                                {% elif note.status == 'rejected' %}
+                                    <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                        <span>Rejected</span>
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-850 border border-amber-200">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                                        <span>Pending Review</span>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <!-- Moderation Action buttons -->
+                            <td class="p-4 text-xs font-semibold text-center pr-6">
+                                <div class="flex items-center justify-center space-x-2">
+                                    {% if note.status == 'pending' %}
+                                        <a href="{% url 'admin_app:approve_note' note.id %}" class="inline-flex items-center space-x-1 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg text-emerald-800 transition-colors duration-150">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+                                            <span>Approve</span>
+                                        </a>
+                                        <a href="{% url 'admin_app:reject_note' note.id %}" class="inline-flex items-center space-x-1 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg text-rose-800 transition-colors duration-150">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            <span>Reject</span>
+                                        </a>
+                                    {% else %}
+                                        <div class="text-[10px] text-slate-400 font-medium italic">
+                                            Moderated on {{ note.updated_at|date:"M d, Y" }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="p-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-outfit font-bold text-slate-700 text-sm">No notes submitted in the system</h4>
+                                    <p class="text-xs text-slate-400 mt-1 max-w-xs">All user-submitted documents will appear here for review.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB 3: Contact Messages -->
+    <div id="tab-messages-content" class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-lg shadow-slate-200/30 hidden">
+        <div class="p-6 border-b border-slate-100">
+            <h3 class="font-outfit font-bold text-lg text-slate-900">Feedback Inbox Messages</h3>
+            <p class="text-xs text-slate-400 font-medium">Read, oversee, and purge feedback or support submissions received from the Contact page form.</p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-100">
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 pl-6">Sender Details</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Subject</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Message Content</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Timestamp</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400">Status</th>
+                        <th class="p-4 text-xs font-bold uppercase tracking-wider text-slate-400 text-center pr-6">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for msg in contact_messages %}
+                        <tr class="hover:bg-slate-50/50 transition-colors duration-150 {% if not msg.is_read %}bg-indigo-50/10{% endif %}">
+                            <!-- Sender info -->
+                            <td class="p-4 pl-6">
+                                <div class="font-semibold text-slate-800 text-sm">{{ msg.name }}</div>
+                                <div class="text-[11px] text-slate-450 font-mono select-all">{{ msg.email }}</div>
+                            </td>
+                            <!-- Subject -->
+                            <td class="p-4 text-sm font-semibold text-slate-800">
+                                {{ msg.subject }}
+                            </td>
+                            <!-- Message Content -->
+                            <td class="p-4 text-xs text-slate-550 max-w-sm leading-relaxed">
+                                {{ msg.message }}
+                            </td>
+                            <!-- Timestamp -->
+                            <td class="p-4 text-xs font-semibold text-slate-400">
+                                {{ msg.created_at|date:"M d, Y H:i" }}
+                            </td>
+                            <!-- Status -->
+                            <td class="p-4 text-xs">
+                                {% if msg.is_read %}
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500 border border-slate-205">
+                                        Read
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 animate-pulse">
+                                        Unread
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <!-- Inbox Actions -->
+                            <td class="p-4 text-xs font-semibold text-center pr-6">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <a href="{% url 'admin_app:read_message' msg.id %}" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg text-slate-700 transition-colors duration-150">
+                                        {% if msg.is_read %}Mark Unread{% else %}Mark Read{% endif %}
+                                    </a>
+                                    <a href="{% url 'admin_app:delete_message' msg.id %}" onclick="return confirm('Are you sure you want to permanently delete this message?')" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-800 rounded-lg transition-colors duration-150">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="p-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-outfit font-bold text-slate-700 text-sm">No messages in inbox</h4>
+                                    <p class="text-xs text-slate-400 mt-1 max-w-xs">Contact submissions from visitors will appear here.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tab switching controller
+    function switchTab(tabName) {
+        const usersBtn = document.getElementById('tab-users-btn');
+        const notesBtn = document.getElementById('tab-notes-btn');
+        const messagesBtn = document.getElementById('tab-messages-btn');
+        
+        const usersContent = document.getElementById('tab-users-content');
+        const notesContent = document.getElementById('tab-notes-content');
+        const messagesContent = document.getElementById('tab-messages-content');
+
+        // Hide all contents
+        usersContent.classList.add('hidden');
+        notesContent.classList.add('hidden');
+        messagesContent.classList.add('hidden');
+        
+        // Remove active styles
+        usersBtn.className = "px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-transparent text-slate-500 hover:text-indigo-600 focus:outline-none transition-all duration-150";
+        notesBtn.className = "px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-transparent text-slate-500 hover:text-indigo-600 focus:outline-none transition-all duration-150 flex items-center space-x-2";
+        messagesBtn.className = "px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-transparent text-slate-500 hover:text-indigo-600 focus:outline-none transition-all duration-150 flex items-center space-x-2";
+
+        if (tabName === 'users') {
+            usersBtn.className = "px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-indigo-500 text-indigo-600 focus:outline-none transition-all duration-150";
+            usersContent.classList.remove('hidden');
+            localStorage.setItem('admin_active_tab', 'users');
+        } else if (tabName === 'notes') {
+            notesBtn.className = "px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-indigo-500 text-indigo-600 focus:outline-none transition-all duration-150 flex items-center space-x-2";
+            notesContent.classList.remove('hidden');
+            localStorage.setItem('admin_active_tab', 'notes');
+        } else {
+            messagesBtn.className = "px-6 py-3 font-outfit font-bold text-sm tracking-wide border-b-2 border-indigo-500 text-indigo-600 focus:outline-none transition-all duration-150 flex items-center space-x-2";
+            messagesContent.classList.remove('hidden');
+            localStorage.setItem('admin_active_tab', 'messages');
+        }
+    }
+
+    // Restore active tab on load
+    document.addEventListener('DOMContentLoaded', () => {
+        const activeTab = localStorage.getItem('admin_active_tab') || 'users';
+        switchTab(activeTab);
+    });
+</script>
+{% endblock %}

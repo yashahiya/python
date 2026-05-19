@@ -1,0 +1,139 @@
+{% extends 'user_app/base.html' %}
+
+{% block title %}Contact Us - FirstPortal{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-5xl px-4 py-8 animate-slide-in relative">
+    
+    <!-- Hero Header -->
+    <div class="text-center mb-12">
+        <span class="px-3 py-1 bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-widest rounded-full">Get In Touch</span>
+        <h1 class="font-outfit font-extrabold text-4xl text-slate-900 mt-4 tracking-tight">Connect With Us</h1>
+        <p class="text-slate-500 mt-3 text-sm sm:text-base max-w-xl mx-auto font-medium">
+            Have questions about uploads or account verification? Submit your details below or chat with us instantly!
+        </p>
+    </div>
+
+    <!-- Contact Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left Side: Contact Form -->
+        <div class="lg:col-span-7 backdrop-blur-md bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xl shadow-slate-200/50">
+            <h2 class="font-outfit font-bold text-xl text-slate-900 mb-6 flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-indigo-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                </svg>
+                <span>Send a Message</span>
+            </h2>
+            
+            <form method="POST" action="{% url 'user_app:contact' %}" class="space-y-5">
+                {% csrf_token %}
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Name Input -->
+                    <div class="space-y-1.5">
+                        <label for="name" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Your Name</label>
+                        <input type="text" name="name" id="name" required placeholder="John Doe"
+                            class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 text-sm font-medium">
+                    </div>
+                    
+                    <!-- Email Input -->
+                    <div class="space-y-1.5">
+                        <label for="email" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Email Address</label>
+                        <input type="email" name="email" id="email" required placeholder="john@example.com"
+                            class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 text-sm font-medium">
+                    </div>
+                </div>
+
+                <!-- Subject Input -->
+                <div class="space-y-1.5">
+                    <label for="subject" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Subject</label>
+                    <input type="text" name="subject" id="subject" required placeholder="Question about note approval status"
+                        class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 text-sm font-medium">
+                </div>
+
+                <!-- Message Input -->
+                <div class="space-y-1.5">
+                    <label for="message" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Message Content</label>
+                    <textarea name="message" id="message" rows="5" required placeholder="Type your message here..."
+                        class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white transition-all duration-200 text-sm font-medium resize-none"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full py-3 px-4 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white rounded-xl text-sm font-semibold tracking-wide shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                    Send Message & Verify
+                </button>
+            </form>
+        </div>
+
+        <!-- Right Side: Google Map & Office Info -->
+        <div class="lg:col-span-5 space-y-6">
+            <!-- Map Card -->
+            <div class="backdrop-blur-md bg-white border border-slate-200/80 rounded-3xl p-5 shadow-xl shadow-slate-200/50 overflow-hidden">
+                <h3 class="font-outfit font-bold text-lg text-slate-900 mb-4 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-indigo-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1 1 15 0Z" />
+                    </svg>
+                    <span>Our Location</span>
+                </h3>
+                <div class="rounded-2xl overflow-hidden border border-slate-100 h-[280px]">
+                    <iframe class="w-full h-full border-0" 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019112461011!2d-122.4194155!3d37.7749295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085807000000001%3A0x2f901abcf8423abf!2sSan+Francisco%20City%20Hall!5e0!3m2!1sen!2sus!4v1600000000000" 
+                            allowfullscreen="" 
+                            loading="lazy"></iframe>
+                </div>
+                <div class="mt-4 text-xs font-semibold text-slate-500 leading-relaxed">
+                    100 Van Ness Ave, San Francisco, CA 94102, United States
+                </div>
+            </div>
+            
+            <!-- Quick Contacts Card -->
+            <div class="backdrop-blur-md bg-white border border-slate-200/80 rounded-3xl p-5 shadow-xl shadow-slate-200/50">
+                <h3 class="font-outfit font-bold text-lg text-slate-900 mb-4">Support Channels</h3>
+                <div class="space-y-3.5 text-sm font-semibold text-slate-650">
+                    <div class="flex items-center space-x-3">
+                        <span class="p-2 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                        </span>
+                        <span>support@firstportal.local</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="p-2 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.387a12.035 12.035 0 0 1-7.108-7.108c-.145-.44.02-.927.503-.386c.362-.27.528-.732.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                            </svg>
+                        </span>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating WhatsApp Widget -->
+<a href="https://wa.me/15551234567?text=Hello%20FirstPortal%20Team!%20I%20have%20a%20question%20about%20note%20submissions." 
+   target="_blank" 
+   class="fixed bottom-6 right-6 z-50 flex items-center space-x-2.5 px-4 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transform hover:-translate-y-1 active:translate-y-0 transition-all duration-200 cursor-pointer select-none group animate-pulse-gentle">
+    <!-- WhatsApp SVG Logo -->
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.49-.003 9.957-4.437 9.96-9.885.002-2.639-1.017-5.12-2.871-6.98C16.45 1.878 13.972.859 11.98.859c-5.492 0-9.958 4.435-9.96 9.886-.002 1.83.479 3.619 1.4 5.187l-1.01 3.686 3.79-.993zm11.758-6.98c-.29-.145-1.72-.848-1.986-.944-.265-.097-.457-.145-.65.145-.192.291-.747.944-.916 1.137-.168.193-.337.218-.627.072-2.835-1.424-3.53-2.083-4.805-4.267-.168-.29.168-.269.482-.596.283-.295.337-.387.506-.532.169-.145.084-.29-.042-.58-.127-.291-.65-1.567-.892-2.148-.235-.568-.474-.49-.65-.499-.168-.008-.362-.01-.555-.01-.193 0-.506.072-.77.362-.266.29-1.013.99-1.013 2.417 0 1.426 1.037 2.805 1.182 2.998.145.193 2.039 3.114 4.939 4.364 2.9.125 3.488.1 4.747-.087 1.258-.188 2.58-.87 2.94-1.72.36-.848.36-1.573.253-1.72-.107-.147-.39-.241-.68-.387z"/>
+    </svg>
+    <span class="text-xs font-bold uppercase tracking-wider hidden sm:inline-block">Chat on WhatsApp</span>
+</a>
+
+<!-- Gentle WhatsApp Badge Animation -->
+<style>
+    @keyframes pulse-gentle {
+        0%, 100% { transform: scale(1) translateY(0); }
+        50% { transform: scale(1.04) translateY(-2px); }
+    }
+    .animate-pulse-gentle {
+        animation: pulse-gentle 2.5s infinite ease-in-out;
+    }
+</style>
+{% endblock %}
